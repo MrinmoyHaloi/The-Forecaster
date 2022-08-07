@@ -36,8 +36,8 @@
 		& > div {
 			padding: 2rem 3rem;
 			padding-right: 10rem;
-			text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.377);
-			background-color: rgba(255, 255, 255, 0.137);
+			text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.589);
+			background-color: rgba(128, 128, 128, 0.24);
 			border-radius: 0.5rem;
 			backdrop-filter: blur(6px);
 			border: 1px solid white;
