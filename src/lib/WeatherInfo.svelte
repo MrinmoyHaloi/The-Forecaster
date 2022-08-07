@@ -5,8 +5,7 @@
 
 <div
 	class="container-fluid text-light weather-container"
-	style="background-image: url({images.results[0].urls.regular});"
->
+	style="{images.total === 0 ? 'background: rgba(0, 0, 15, 0.9)' : 'background-image: url(' + images.results[0].urls.regular + ')'};">
 	<div>
 		<h1 class="fw-bold">{data.name}, <span class="fw-normal fs-4">{data.sys.country}</span></h1>
 		<h3>
