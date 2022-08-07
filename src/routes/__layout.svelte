@@ -6,7 +6,8 @@
 	$: path = $page.url.pathname.substring($page.url.pathname.lastIndexOf('/'));
 	let location;
 	function onSubmit() {
-		goto(`/${location}`);
+        // uncapiatlize the first letter of the location
+		goto(`/${location.toString().toLowerCase()}`);
 	}
 </script>
 <nav class="navbar navbar-expand-lg bg-light fixed-top">
