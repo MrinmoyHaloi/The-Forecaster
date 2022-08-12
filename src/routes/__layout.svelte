@@ -7,12 +7,12 @@
 	let location;
 	function onSubmit() {
         // uncapiatlize the first letter of the location
-		goto(`/${location.toString().toLowerCase()}`);
+		goto(`/city/${location.toString().toLowerCase()}`);
 	}
 </script>
-<nav class="navbar navbar-expand-lg bg-light fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Weather app</a>
+        <a class="navbar-brand" href="/">Weather Mitra</a>
 		<button
         class="navbar-toggler"
         type="button"
@@ -41,10 +41,17 @@
 					aria-label="Search"
 					bind:value={location}
                     />
-                    <btn class="btn btn-outline-primary" on:click={onSubmit} type="submit">Search</btn>
+                    <btn class="btn btn-outline-light" on:click={onSubmit} type="submit">Search</btn>
 			</form>
 		</div>
 	</div>
 </nav>
 
 <slot />
+
+<style lang=scss>
+    .navbar {
+        background-color: rgba(29, 29, 29, 0.452);
+        backdrop-filter: blur(6px);
+    }
+</style>

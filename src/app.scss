@@ -1,0 +1,10 @@
+form {
+    color-scheme: dark;
+    & input {
+        background: transparent !important;
+        color: white !important;
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.55) !important;
+        }
+    }
+}

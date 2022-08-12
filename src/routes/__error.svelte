@@ -18,10 +18,14 @@
 <div class="mt-5" />
 <div class="container text-center">
     <h1>
-        error
+        Error {status}
     </h1>
     {#if status == 404}
+    {#if error.message == "City not found"}
+        <p>City not found</p>
+    {:else}
         <p>Page not found</p>
+    {/if}
     {:else}
         <p>{error.message}</p>
     {/if}
@@ -32,7 +36,7 @@
 
 <style lang="scss">
     h1 {
-        font-size: 6rem;
+        font-size: 5rem;
     }
     p {
         font-size: 1.3rem;
