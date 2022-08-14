@@ -2,6 +2,7 @@
     let query;
     let api_key = "808605ecfeb37d6547902fa8c8cfa8b7";
     let weather_data;
+    let daily_forecast;
     let response;
     let status;
 
@@ -20,26 +21,42 @@
                 response = data;
             });
         });
-
-		await fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${api_key}&q=${query}`)
-            .then( res => res.json()
-            .then((data) => {
-                status = res.status
+        
+        await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&q=${query}`
+        ).then((res) =>
+            res.json().then((data) => {
+                status = res.status;
                 weather_data = data;
             })
-		);
+        );
+
+        await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast/daily?q=${weather_data.name}&cnt=8&units=metric&appid=${api_key}`
+        ).then((res) =>
+            res
+                .json()
+                .then((data) => {
+                    daily_forecast = data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        );
+
         if (status === 200) {
             return {
                 status: 200,
                 props: {
                     data: weather_data,
-                    images: response
+                    images: response,
+                    daily_forecast: daily_forecast
                 }
             };
         } else {
             return {
                 error: new Error("City not found"),
-                status: 404,
+                status: 404
             };
         }
     }
@@ -48,7 +65,10 @@
 <script>
     export let images;
     export let data;
+    export let daily_forecast;
     import WeatherInfo from "$lib/WeatherInfo.svelte";
+    import MoreInfo from "$lib/MoreInfo.svelte";
 </script>
 
 <WeatherInfo {data} {images} />
+<MoreInfo {data} {daily_forecast} />
