@@ -5,22 +5,26 @@
     import "../app.scss";
 
     $: path = $page.url.pathname.substring($page.url.pathname.lastIndexOf("/"));
-    let location;
-    function onSubmit() {
-        // uncapiatlize the first letter of the location
-        goto(`/city/${location.toString().toLowerCase()}`);
-    }
+    let location = "";
+    let api_key = "808605ecfeb37d6547902fa8c8cfa8b7";
+
+    
     onMount(() => {
         // initialize input fields
         document.querySelectorAll(".form-outline").forEach((formOutline) => {
             new mdb.Input(formOutline).init();
         });
     });
+
+    function getLocations(){
+        let res = fetch(`http://api.openweathermap.org/geo/1.0/direct?q=london&appid=${api_key}&limit=8`);
+    }
+
 </script>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Weather Mitra</a>
+        <a class="navbar-brand" href="/">The Forecaster</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -30,7 +34,7 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
         >
-            <i class="bi bi-list"></i>
+            <i class="bi bi-list" />
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto">
@@ -43,17 +47,18 @@
                     <a class="nav-link {path === '/about' ? 'active' : ''}" href="/about">About</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" on:submit|preventDefault={onSubmit}>
-                <div class="form-outline me-2">
+            <form class="d-flex" role="search" on:submit|preventDefault={goto("/city/" + location)}>
+                <div class="form-outline form-white me-2">
                     <input class="form-control"
                     id="search-input"
                     type="search"
                     aria-label="Search" 
+                    required="true"
                     bind:value={location}
                     />
                     <label class="form-label" for="search-input">City name</label>
                 </div>
-                <btn class="btn btn-outline-light" on:click={onSubmit} type="submit">Search</btn>
+                <a type="submit" href=/city/{location} sveltekit:prefetch class="btn btn-outline-light">Search</a>
             </form>
         </div>
     </div>

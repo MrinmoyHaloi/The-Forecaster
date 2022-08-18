@@ -1,9 +1,10 @@
 <script>
     import { DateTime } from "luxon";
+    import { onMount } from "svelte";
+
+    // import {Chart} from "chart.js/auto";
     export let data;
     export let daily_forecast;
-    let previous_max;
-    let previous_min;
 
     // calculate direction based on degrees
     function getDirection(degrees) {
@@ -17,22 +18,16 @@
         if (degrees > 22.5) return "NE";
         return "N";
     }
-    
-    function setPreviousMax(max) {
-        console.log("max:" + max)
-        console.log("previous_max:" + previous_max)
-        previous_max = max;
-        return "";
-    }
-    
-    function setPreviousMin(min) {
-        previous_min = min;
-        return "";
+
+    function removeDecimal(temp) {
+        return temp.toString().substring(0, temp.toString().indexOf("."));
     }
 </script>
 
 <div class="container py-5" id="content">
-    <h5 class="d-inline-block" title="{DateTime.fromSeconds(data.dt).toFormat("ffff")}">{DateTime.fromSeconds(data.dt).toFormat("dd/MM/yyyy, hh:mm")}</h5>
+    <h5 class="d-inline-block" title={DateTime.fromSeconds(data.dt).toFormat("ffff")}>
+        {DateTime.fromSeconds(data.dt).toFormat("dd/MM/yyyy, hh:mm")}
+    </h5>
     <h1 class="fw-bold">{data.name}, <span class="fw-normal fs-4">{data.sys.country}</span></h1>
     <h3>
         <img
@@ -40,14 +35,20 @@
             alt="weather condition icon"
             width="50"
         />
-        {data.main.temp.toString().substring(0, 2)}°C <span>{data.weather[0].main}</span>
+        {removeDecimal(data.main.temp)}°C <span>{data.weather[0].main}</span>
     </h3>
     <h4 class="fs-6">
-        feels like {data.main.feels_like.toString().substring(0, 2)}°C. {data.weather[0]
-            .description}
+        feels like {removeDecimal(data.main.feels_like)}°C. {data.weather[0].description}
     </h4>
     <div class="more-info pt-2">
-        <h4 class="fs-6"><b>Wind:</b> <i class="bi bi-cursor-fill" style="display:inline-block;transform: rotate(calc(-225deg + {data.wind.deg}deg))"></i> {data.wind.speed} m/s {getDirection(data.wind.deg)}</h4>
+        <h4 class="fs-6">
+            <b>Wind:</b>
+            <i
+                class="bi bi-cursor-fill"
+                style="display:inline-block;transform: rotate(calc(-225deg + {data.wind.deg}deg))"
+            />
+            {getDirection(data.wind.deg)}, {data.wind.speed} m/s
+        </h4>
         <h4 class="fs-6"><b>Pressure:</b> {data.main.pressure} hPa</h4>
         <h4 class="fs-6"><b>Humidity:</b> {data.main.humidity}%</h4>
         <h4 class="fs-6"><b>Visibility:</b> {data.visibility / 1000} KM</h4>
@@ -59,11 +60,11 @@
                 <div>
                     <h5 class="text-center">
                         {#if i === 0}
-                        Today
-                    {:else if i === 1}
-                        Tomorrow
+                            Today
+                        {:else if i === 1}
+                            Tomorrow
                         {:else}
-                        {DateTime.fromSeconds(forecast.dt).toFormat("ccc")}
+                            {DateTime.fromSeconds(forecast.dt).toFormat("ccc")}
                         {/if}
                     </h5>
                     {DateTime.fromSeconds(forecast.dt).toFormat("MM/dd")}
@@ -73,43 +74,48 @@
                     alt="weather condition icon"
                     width="50"
                 />
-                <div>{forecast.temp.max.toString().substring(0, 2)}°C max
+                <div>
+                    {removeDecimal(forecast.temp.max)}°C max
                     {#if i > 0}
-                        {#if daily_forecast.list[i-1].temp.max > forecast.temp.max}
-                            <i class="bi bi-caret-down-fill text-danger"></i>
-                        {:else if daily_forecast.list[i-1].temp.max < forecast.temp.max}
-                            <i class="bi bi-caret-up-fill text-success"></i>
+                        {#if daily_forecast.list[i - 1].temp.max > forecast.temp.max}
+                            <i class="bi bi-caret-down-fill text-danger" />
+                        {:else if daily_forecast.list[i - 1].temp.max < forecast.temp.max}
+                            <i class="bi bi-caret-up-fill text-success" />
                         {:else}
-                            <i class="bi bi-caret-right-fill"></i>
+                            <i class="bi bi-caret-right-fill" />
                         {/if}
                     {/if}
                 </div>
                 <div>
-                    {forecast.temp.min.toString().substring(0, 2)}°C min
+                    {removeDecimal(forecast.temp.min)}°C min
                     {#if i > 0}
-                    {#if daily_forecast.list[i-1].temp.min > forecast.temp.min}
-                        <i class="bi bi-caret-down-fill text-danger"></i>
-                    {:else if daily_forecast.list[i-1].temp.min < forecast.temp.min}
-                        <i class="bi bi-caret-up-fill text-success"></i>
-                    {:else}
-                        <i class="bi bi-caret-right-fill"></i>
+                        {#if daily_forecast.list[i - 1].temp.min > forecast.temp.min}
+                            <i class="bi bi-caret-down-fill text-danger" />
+                        {:else if daily_forecast.list[i - 1].temp.min < forecast.temp.min}
+                            <i class="bi bi-caret-up-fill text-success" />
+                        {:else}
+                            <i class="bi bi-caret-right-fill" />
+                        {/if}
                     {/if}
-                {/if}
-
                 </div>
                 <div>
-                    <i class="bi bi-cursor-fill" style="display:inline-block;transform: rotate(calc(-225deg + {forecast.deg}deg))"></i> {forecast.speed} m/s {getDirection(forecast.deg)}
+                    <i
+                        class="bi bi-cursor-fill"
+                        style="display:inline-block;transform: rotate(calc(-225deg + {forecast.deg}deg))"
+                    />
+                    {getDirection(forecast.deg)}, {forecast.speed} m/s
                 </div>
             </div>
         {/each}
     </div>
+
 </div>
 
 <style lang="scss">
     .forecast-carousel {
         display: grid;
         grid-auto-flow: column;
-        grid-auto-columns: 13rem;
+        grid-auto-columns: 12rem;
         overflow-x: auto;
         overscroll-behavior-inline: contain;
         gap: 1rem;
@@ -131,7 +137,7 @@
         }
     }
     .more-info {
-        max-width: 22rem;
+        max-width: 23rem;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;

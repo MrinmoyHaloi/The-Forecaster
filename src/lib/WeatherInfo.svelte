@@ -1,13 +1,17 @@
 <script>
     export let images;
     export let data;
+
+    function removeDecimal(temp) {
+        return temp.toString().substring(0, temp.toString().indexOf("."))
+    }
 </script>
 
 <div
     class="container-fluid text-light weather-container"
     style="{images.total === 0
         ? 'background: rgba(0, 0, 15, 0.9)'
-        : 'background-image: url(' + images.results[0].urls.regular + ')'};"
+        : 'background-image: url(' + images.results[0].urls.raw + '&q=70&w=1080' +')'};"
 >
     <div class="d-flex align-items-center w-100 h-100">
         <div class="weather-card">
@@ -20,9 +24,9 @@
                     alt="weather condition icon"
                     width="50"
                 />
-                {data.main.temp.toString().substring(0, 2)}°C, <span>{data.weather[0].main}</span>
+                {removeDecimal(data.main.temp)}°C, <span>{data.weather[0].main}</span>
             </h3>
-            <h4 class="fs-6">feels like {data.main.feels_like.toString().substring(0, 2)}°C</h4>
+            <h4 class="fs-6">feels like {removeDecimal(data.main.feels_like)}°C</h4>
             <a
                 href="#content"
                 class="btn mt-2 btn-outline-light btn-rounded"
@@ -32,7 +36,7 @@
     </div>
     <div class="attribution">
         Photo by <a href={images.results[0].links.html}>{images.results[0].user.name}</a> on
-        <a href="https://unsplash.com">unsplash.com</a>
+        <a href="https://unsplash.com">unsplash</a>
     </div>
 </div>
 

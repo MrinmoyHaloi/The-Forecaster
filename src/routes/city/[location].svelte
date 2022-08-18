@@ -21,9 +21,9 @@
                 response = data;
             });
         });
-        
+
         await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&q=${query}`
+            `https://pro.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&q=${query}`
         ).then((res) =>
             res.json().then((data) => {
                 status = res.status;
@@ -32,7 +32,7 @@
         );
 
         await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast/daily?q=${weather_data.name}&cnt=8&units=metric&appid=${api_key}`
+            `https://pro.openweathermap.org/data/2.5/forecast/daily?q=${weather_data.name}&cnt=8&units=metric&appid=${api_key}`
         ).then((res) =>
             res
                 .json()
