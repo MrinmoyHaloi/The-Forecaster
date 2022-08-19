@@ -1,10 +1,81 @@
 <script>
     import { DateTime } from "luxon";
     import { onMount } from "svelte";
+    import Chart from "chart.js/auto";
 
-    // import {Chart} from "chart.js/auto";
     export let data;
     export let daily_forecast;
+    export let hourly_forecast;
+    let labels = [];
+    let temps = [];
+    let delayed;
+    let myChart;
+
+    const chart_data = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Temperature",
+                backgroundColor: "rgb(255, 255, 255)",
+                data: temps,
+                borderColor: "#3080d0",
+                cubicInterpolationMode: "monotone",
+                hoverRadius: 7
+            }
+        ]
+    };
+
+    // loop over the hourly forecast and add the data to the chart
+    // hourly_forecast.list.forEach((hour) => {
+    //     const time = DateTime.fromSeconds(hour.dt);
+    //     const temp = hour.main.temp;
+    //     const label = time.toFormat("hh:mm");
+    //     labels.push(label);
+    //     temps.push(temp);
+    // });
+    // transform the loop to a for loop
+    for (let i = 0; i < 12; i++) {
+        const hour = hourly_forecast.list[i];
+        const time = DateTime.fromSeconds(hour.dt);
+        const temp = hour.main.temp;
+        const label = time.toFormat("hh:mm a");
+        labels.push(label);
+        temps.push(temp);
+    }
+    console.log(chart_data);
+
+    onMount(() => {
+        const config = {
+            type: "line",
+            data: chart_data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: (value) => {
+                                return value + "°C";
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    },
+                    title: {
+                        display: true,
+                        text: "Hourly forecast - 12 hours",
+                        color: "#fff",
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
+            }
+        };
+        myChart = new Chart(document.getElementById("myChart"), config);
+    });
 
     // calculate direction based on degrees
     function getDirection(degrees) {
@@ -108,10 +179,24 @@
             </div>
         {/each}
     </div>
-
+    <div class="hourly_forecast mt-3">
+        <div class="">
+            <canvas id="myChart" class="" />
+        </div>
+    </div>
 </div>
 
 <style lang="scss">
+    .hourly_forecast {
+        display: flex;
+        & div {
+            width: 100%;
+            margin: auto;
+            @media screen and (min-width: 768px) {
+                width: 80%;
+            }
+        }
+    }
     .forecast-carousel {
         display: grid;
         grid-auto-flow: column;

@@ -3,8 +3,11 @@
     let api_key = "808605ecfeb37d6547902fa8c8cfa8b7";
     let weather_data;
     let daily_forecast;
+    let hourly_forecast;
     let response;
     let status;
+    let lat = 40.7127281;
+    let lon = -74.0060152;
 
     /** @type {import('@sveltejs/kit').Load} */
     export async function load({ fetch }) {
@@ -20,6 +23,12 @@
                 response = data;
             });
         });
+
+        await fetch(`https://pro.openweathermap.org/data/2.5/forecast/hourly?units=metric&lat=${lat}&lon=${lon}&appid=${api_key}`).then((res) => {
+            res.json().then((data) => {
+                hourly_forecast = data;
+            });
+        })
 
         await fetch(
             `https://pro.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&q=${query}`
@@ -63,4 +72,4 @@
 </script>
 
 <WeatherInfo {data} {images} />
-<MoreInfo {data} {daily_forecast} />
+<MoreInfo {data} {daily_forecast} {hourly_forecast}/>
