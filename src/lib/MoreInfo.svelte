@@ -1,7 +1,8 @@
 <script>
     import { DateTime } from "luxon";
     import { onMount } from "svelte";
-    import { Chart, registerables } from 'chart.js';
+    // import { Chart, registerables } from 'chart.js';
+    const {Chart, registerables } = require('chart.js');
     Chart.register(...registerables);
 
     export let data;

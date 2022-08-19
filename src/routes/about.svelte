@@ -36,8 +36,10 @@
 </div> -->
 <script>
     import { onMount } from "svelte";
-    import { Chart, registerables } from 'chart.js';
+    // import { Chart, registerables } from 'chart.js';
+    const {Chart, registerables } = require('chart.js');
     Chart.register(...registerables);
+
     let myChart;
     const labels = ["1880", "1900", "1920", "1940", "1960", "1980", "2000", "2022"];
     const data = {
