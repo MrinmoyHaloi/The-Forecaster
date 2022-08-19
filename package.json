@@ -25,6 +25,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"chart.js": "^3.9.1",
 		"luxon": "^3.0.1"
 	}
 }
