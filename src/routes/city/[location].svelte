@@ -5,10 +5,15 @@
     let daily_forecast;
     let response;
     let status;
+    let lat;
+    let lon;
 
     /** @type {import('@sveltejs/kit').Load} */
-    export async function load({ fetch, params }) {
-        query = params.location;
+    export async function load({ fetch, params , url}) {
+        query = params.location.toLowerCase();
+        lat = url.searchParams.get("lat")
+        lon = url.searchParams.get("lon")
+
         await fetch(
             `https://api.unsplash.com/search/photos?page=1&query=${query}&orientation=landscape`,
             {
@@ -23,7 +28,7 @@
         });
 
         await fetch(
-            `https://pro.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&q=${query}`
+            `https://pro.openweathermap.org/data/2.5/weather?appid=${api_key}&units=metric&lat=${lat}&lon=${lon}`
         ).then((res) =>
             res.json().then((data) => {
                 status = res.status;
