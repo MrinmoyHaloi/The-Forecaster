@@ -141,7 +141,4 @@
         width: 100%;
         top: 2.3rem;
     }
-    .hide {
-        display: none !important;
-    }
 </style>

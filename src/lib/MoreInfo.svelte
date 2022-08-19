@@ -2,8 +2,8 @@
     import { DateTime } from "luxon";
     import { onMount } from "svelte";
     // import { Chart, registerables } from 'chart.js';
-    const {Chart, registerables } = require('chart.js');
-    Chart.register(...registerables);
+    // const {Chart, registerables } = require('chart.js');
+    // Chart.register(...registerables);
 
     export let data;
     export let daily_forecast;
@@ -27,15 +27,6 @@
         ]
     };
 
-    // loop over the hourly forecast and add the data to the chart
-    // hourly_forecast.list.forEach((hour) => {
-    //     const time = DateTime.fromSeconds(hour.dt);
-    //     const temp = hour.main.temp;
-    //     const label = time.toFormat("hh:mm");
-    //     labels.push(label);
-    //     temps.push(temp);
-    // });
-    // transform the loop to a for loop
     for (let i = 0; i < 12; i++) {
         const hour = hourly_forecast.list[i];
         const time = DateTime.fromSeconds(hour.dt);
