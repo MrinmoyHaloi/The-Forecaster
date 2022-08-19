@@ -1,7 +1,8 @@
 <script>
     import { DateTime } from "luxon";
     import { onMount } from "svelte";
-    import Chart from "chart.js/auto";
+    import { Chart, registerables } from 'chart.js';
+    Chart.register(...registerables);
 
     export let data;
     export let daily_forecast;
