@@ -31,7 +31,7 @@
 
     async function getLocations() {
         let res = await fetch(
-            `http://pro.openweathermap.org/geo/1.0/direct?q=${query}&appid=${api_key}&limit=8`
+            `https://pro.openweathermap.org/geo/1.0/direct?q=${query}&appid=${api_key}&limit=8`
         );
         let data = await res.json();
 
