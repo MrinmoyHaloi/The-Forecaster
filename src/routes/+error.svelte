@@ -1,33 +1,20 @@
-<script context="module">
-    /** @type {import('@sveltejs/kit').ErrorLoad} */
-    export function load({ error, status }) {
-        return {
-            props: { error, status },
-        };
-    }
-</script>
-
 <script>
-    /** @type {number} */
-    export let status;
-
-    /** @type {Error & {frame?: string} & {loc?: object}} */
-    export let error;
+    import { page } from "$app/stores"
 </script>
 
 <div class="mt-5" />
 <div class="container text-center">
     <h1>
-        Error {status}
+        Error {$page.status}
     </h1>
-    {#if status == 404}
-    {#if error.message == "City not found"}
+    {#if $page.status == 404}
+    {#if $page.error.message == "City not found"}
         <p>City not found</p>
     {:else}
         <p>Page not found</p>
     {/if}
     {:else}
-        <p>{error.message}</p>
+        <p>{$page.error.message}</p>
     {/if}
     <a href="/" class="btn btn-primary btn-rounded">go back</a>
 </div>
