@@ -1,9 +1,6 @@
 <script>
     import { DateTime } from "luxon";
     import { onMount } from "svelte";
-    // import { Chart, registerables } from 'chart.js';
-    // const {Chart, registerables } = require('chart.js');
-    // Chart.register(...registerables);
 
     export let data;
     export let daily_forecast;
@@ -18,11 +15,12 @@
         datasets: [
             {
                 label: "Temperature",
-                backgroundColor: "rgb(255, 255, 255)",
+                backgroundColor: "",
                 data: temps,
-                borderColor: "#3080d0",
+                borderColor: "#fff",
                 cubicInterpolationMode: "monotone",
-                hoverRadius: 7
+                hoverRadius: 7,
+                radius: 4
             }
         ]
     };
@@ -35,7 +33,6 @@
         labels.push(label);
         temps.push(temp);
     }
-    console.log(chart_data);
 
     onMount(() => {
         const config = {

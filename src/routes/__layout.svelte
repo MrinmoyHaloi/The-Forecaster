@@ -120,6 +120,8 @@
 
 <slot />
 
+<p class="text-center">Copyright Mrinmoy Haloi 2022</p>
+
 <style lang="scss">
     .link-light {
         color: #f9f9f9 !important;
