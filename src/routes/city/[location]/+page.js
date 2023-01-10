@@ -3,6 +3,7 @@ import { env } from "$env/dynamic/public"
 
 let query;
 let api_key = env.PUBLIC_WEATHER_API_KEY;
+let unsplash_api_key = env.PUBLIC_UNSPLASH_API_KEY;
 let weather_data;
 let daily_forecast;
 let hourly_forecast;
@@ -21,7 +22,7 @@ export async function load({ fetch, params, url }) {
         `https://api.unsplash.com/search/photos?page=1&query=${query}&orientation=landscape`,
         {
             headers: {
-                Authorization: `Client-ID obK7ubjL9GcBXwIQMy_7rtwMtCJy9IksdwBQC--RU_Q`
+                Authorization: `Client-ID ${unsplash_api_key}`,
             }
         }
     ).then((res) => {
