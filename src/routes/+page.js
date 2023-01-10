@@ -1,5 +1,7 @@
+import { env } from '$env/dynamic/public'
+
 var query = "new york";
-let api_key = "808605ecfeb37d6547902fa8c8cfa8b7";
+let api_key = env.PUBLIC_WEATHER_API_KEY;
 let weather_data;
 let daily_forecast;
 let hourly_forecast;
